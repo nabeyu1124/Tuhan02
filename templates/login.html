@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}ログイン - 通販システム{% endblock %}
+
+{% block content %}
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <h1>ログイン</h1>
+
+        <p class="login-description">
+            メールアドレスとパスワードを入力してください。
+        </p>
+
+        <form
+            action="{{ url_for('login') }}"
+            method="post"
+            class="login-form"
+        >
+
+            <div class="form-group">
+
+                <label for="email">
+                    メールアドレス
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="example@example.com"
+                    autocomplete="email"
+                    required
+                    value="{{ request.form.get('email', '') }}"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    パスワード
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="パスワード"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button full-width"
+            >
+                ログイン
+            </button>
+
+        </form>
+
+
+        <div class="test-account">
+
+            <h3>テストアカウント</h3>
+
+            <p>
+                メールアドレス：
+                <code>user@example.com</code>
+            </p>
+
+            <p>
+                パスワード：
+                <code>password</code>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

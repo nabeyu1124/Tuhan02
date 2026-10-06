@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}購入完了 - 通販システム{% endblock %}
+
+{% block content %}
+
+<div class="complete-wrapper">
+
+    <div class="complete-card">
+
+        <div class="complete-icon">
+            ✓
+        </div>
+
+        <h1>
+            購入が完了しました
+        </h1>
+
+        <p>
+            ご購入ありがとうございました。
+        </p>
+
+        <div class="complete-actions">
+
+            <a
+                href="{{ url_for('purchase_history') }}"
+                class="primary-button"
+            >
+                購入履歴を見る
+            </a>
+
+            <a
+                href="{{ url_for('index') }}"
+                class="secondary-button"
+            >
+                商品一覧へ戻る
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

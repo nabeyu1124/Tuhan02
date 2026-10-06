@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}購入確認 - 通販システム{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div>
+        <h1>購入確認</h1>
+        <p>以下の商品を購入します。</p>
+    </div>
+
+</section>
+
+
+<section class="purchase-confirm">
+
+    <div class="purchase-list">
+
+        {% for item in items %}
+
+        <article class="purchase-item">
+
+            <div>
+
+                <h2>
+                    {{ item["product"]["name"] }}
+                </h2>
+
+                <p>
+                    数量：{{ item["quantity"] }}個
+                </p>
+
+            </div>
+
+            <strong>
+                ¥{{ "{:,}".format(item["subtotal"]) }}
+            </strong>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="cart-summary">
+
+        <div class="total-row">
+
+            <span>
+                合計金額
+            </span>
+
+            <strong>
+                ¥{{ "{:,}".format(total_amount) }}
+            </strong>
+
+        </div>
+
+
+        <div class="purchase-actions">
+
+            <form
+                action="{{ url_for('purchase_complete') }}"
+                method="post"
+            >
+
+                <button
+                    type="submit"
+                    class="primary-button purchase-button"
+                >
+                    確定
+                </button>
+
+            </form>
+
+
+            <a
+                href="{{ url_for('cart') }}"
+                class="secondary-button"
+            >
+                キャンセル
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}カート - 通販システム{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div>
+        <h1>カート</h1>
+        <p>カートに入っている商品を確認してください。</p>
+    </div>
+
+</section>
+
+
+{% if items %}
+
+<section class="cart-section">
+
+    <div class="cart-list">
+
+        {% for item in items %}
+
+        <article class="cart-item">
+
+            <div class="cart-item-image">
+
+                <img
+                    src="{{ item['product']['image_url'] }}"
+                    alt="{{ item['product']['name'] }}"
+                >
+
+            </div>
+
+
+            <div class="cart-item-info">
+
+                <span class="product-genre">
+                    {{ item["product"]["genre"] }}
+                </span>
+
+                <h2>
+                    {{ item["product"]["name"] }}
+                </h2>
+
+                <p>
+                    単価：
+                    ¥{{ "{:,}".format(item["product"]["price"]) }}
+                </p>
+
+                <p>
+                    数量：
+                    {{ item["quantity"] }}個
+                </p>
+
+                <p class="cart-subtotal">
+                    小計：
+                    ¥{{ "{:,}".format(item["subtotal"]) }}
+                </p>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="cart-summary">
+
+        <div class="total-row">
+
+            <span>
+                合計金額
+            </span>
+
+            <strong>
+                ¥{{ "{:,}".format(total_amount) }}
+            </strong>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('purchase_confirm') }}"
+            class="primary-button purchase-button"
+        >
+            購入する
+        </a>
+
+    </div>
+
+</section>
+
+{% else %}
+
+<div class="empty-message">
+
+    <p>
+        カートに商品がありません
+    </p>
+
+    <a
+        href="{{ url_for('index') }}"
+        class="primary-button"
+    >
+        商品を見る
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

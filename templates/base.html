@@ -1,0 +1,165 @@
+<!DOCTYPE html> <html lang="ja"> <head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    {% block title %}通販システム{% endblock %}
+</title>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+{% block head %}{% endblock %}
+
+</head> <body>
+<!-- ================================
+     ヘッダー
+================================= -->
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <!-- ロゴ -->
+        <a
+            href="{{ url_for('index') }}"
+            class="site-logo"
+        >
+            通販システム
+        </a>
+
+
+        <!-- ナビゲーション -->
+        <nav class="main-nav">
+
+            <a
+                href="{{ url_for('index') }}"
+                class="nav-link"
+            >
+                商品一覧
+            </a>
+
+
+        {% if current_user %}
+
+            <span class="user-name">
+                {{ current_user["account_name"] }} さん
+            </span>
+
+
+            <a
+                href="{{ url_for('cart') }}"
+                class="nav-link"
+            >
+                カート
+            </a>
+
+
+            <a
+                href="{{ url_for('purchase_history') }}"
+                class="nav-link"
+            >
+                購入履歴
+            </a>
+
+
+            <form
+                action="{{ url_for('logout') }}"
+                method="post"
+                class="logout-form"
+            >
+
+                <button
+                    type="submit"
+                    class="nav-link logout-button"
+                >
+                    ログアウト
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+            <a
+                href="{{ url_for('login') }}"
+                class="nav-link"
+            >
+                ログイン
+            </a>
+
+        {% endif %}
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- ================================
+     メインコンテンツ
+================================= -->
+
+<main class="main-content">
+
+
+    <!-- Flask flashメッセージ -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-messages">
+
+                {% for category, message in messages %}
+
+                    <div
+                        class="flash-message flash-{{ category }}"
+                    >
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- 各ページのコンテンツ -->
+
+    {% block content %}{% endblock %}
+
+
+</main>
+
+
+<!-- ================================
+     フッター
+================================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+        <p>
+            &copy; 2026 通販システム
+        </p>
+
+    </div>
+
+</footer>
+
+
+{% block scripts %}{% endblock %}
+
+</body> </html>

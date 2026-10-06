@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}商品一覧 - 通販システム{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <div>
+        <h1>商品一覧</h1>
+
+        {% if selected_genre %}
+            <p>
+                「{{ selected_genre }}」の商品を表示しています。
+            </p>
+        {% else %}
+            <p>
+                商品をお選びください。
+            </p>
+        {% endif %}
+    </div>
+
+</section>
+
+
+<!-- ジャンルフィルター -->
+<section class="genre-filter">
+
+    <h2>ジャンルから探す</h2>
+
+    <div class="genre-buttons">
+
+        <a
+            href="{{ url_for('index') }}"
+            class="genre-button {% if not selected_genre %}active{% endif %}"
+        >
+            すべて
+        </a>
+
+        {% for genre in genres %}
+
+            <a
+                href="{{ url_for('index', genre=genre['genre']) }}"
+                class="genre-button {% if selected_genre == genre['genre'] %}active{% endif %}"
+            >
+                {{ genre["genre"] }}
+            </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- 商品一覧 -->
+<section class="products-section">
+
+    {% if products %}
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img
+                            src="{{ product['image_url'] }}"
+                            alt="{{ product['name'] }}"
+                            class="product-image"
+                        >
+
+                        {% if product["stock"] == 0 %}
+
+                            <span class="sold-out">
+                                SOLD OUT
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="product-content">
+
+                        <span class="product-genre">
+                            {{ product["genre"] }}
+                        </span>
+
+                        <h2 class="product-name">
+                            {{ product["name"] }}
+                        </h2>
+
+                        <p class="product-price">
+                            ¥{{ "{:,}".format(product["price"]) }}
+                        </p>
+
+                        {% if product["stock"] > 0 %}
+
+                            <p class="stock in-stock">
+                                在庫：{{ product["stock"] }}個
+                            </p>
+
+                        {% else %}
+
+                            <p class="stock out-of-stock">
+                                在庫切れ
+                            </p>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'product_detail',
+                                product_id=product['id']
+                            ) }}"
+                            class="primary-button detail-button"
+                        >
+                            詳細
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-message">
+            <p>
+                該当する商品がありません。
+            </p>
+
+            <a
+                href="{{ url_for('index') }}"
+                class="primary-button"
+            >
+                すべての商品を表示
+            </a>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
